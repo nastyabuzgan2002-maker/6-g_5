@@ -129,7 +129,7 @@ button{
 <script>
 
 function round(n){
-    return Math.round(n * 100) / 100;
+    return Number(n.toFixed(2));
 }
 
 function normalize(value){
