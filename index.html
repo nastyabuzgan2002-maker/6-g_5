@@ -81,7 +81,6 @@ button{
     font-size:15px;
     font-weight:bold;
 }
-    
 </style>
 </head>
 
@@ -132,34 +131,32 @@ function round(n){
     return Number(n.toFixed(2));
 }
 
-function normalize(value){
-    return value.replace(",", ".");
+function parseVal(id){
+    let val = document.getElementById(id).value.trim().replace(",", ".");
+    return parseFloat(val);
 }
 
 function check(){
 
 let a = round(11.6 * 12.35); // 143.26
-let b = round(7.1 * 12.35);  // 87.685
+let b = round(7.1 * 12.35);  // 87.69
 let c = round(13.2 * 12.35); // 163.02
 
-let sum = Math.round(a + b + c);  // 
+let sum = Math.round(a + b + c); // 394
 
-let ok =
-normalize(document.getElementById("t1").value.trim()) == a &&
-normalize(document.getElementById("t2").value.trim()) == b &&
-normalize(document.getElementById("t3").value.trim()) == c &&
-normalize(document.getElementById("total").value.trim()) == sum;
+let u1 = parseVal("t1");
+let u2 = parseVal("t2");
+let u3 = parseVal("t3");
+let uSum = parseVal("total");
+
+let ok = (u1 === a) && (u2 === b) && (u3 === c) && (uSum === sum);
 
 if(ok){
-
     document.getElementById("result").innerText = "✔ Верно!";
     document.getElementById("code").innerText = "🔐 Код: #Пу";
-
 }else{
-
     document.getElementById("result").innerText = "❌ Неверно, попробуй ещё раз";
     document.getElementById("code").innerText = "";
-
 }
 
 }
