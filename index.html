@@ -15,6 +15,8 @@ body{
 .card{
     background:white;
     width:850px;
+    max-width:100%;
+    box-sizing:border-box;
     margin:auto;
     padding:25px;
     border-radius:12px;
@@ -70,6 +72,7 @@ button{
     font-weight:bold;
     color:green;
 }
+
 .team-label{
     display:inline-block;
     margin:5px 0 12px;
@@ -100,22 +103,22 @@ button{
 
 <div class="trip">
 📍 Поездка 1: 11.6 км<br>
-<input id="t1" placeholder="стоимость">
+<input id="t1" type="text" inputmode="decimal" placeholder="стоимость">
 </div>
 
 <div class="trip">
 📍 Поездка 2: 7.1 км<br>
-<input id="t2" placeholder="стоимость">
+<input id="t2" type="text" inputmode="decimal" placeholder="стоимость">
 </div>
 
 <div class="trip">
 📍 Поездка 3: 13.2 км<br>
-<input id="t3" placeholder="стоимость">
+<input id="t3" type="text" inputmode="decimal" placeholder="стоимость">
 </div>
 
 <div class="trip">
 📊 Общая сумма<br>
-<input id="total" placeholder="итог">
+<input id="total" type="text" inputmode="decimal" placeholder="итог">
 </div>
 
 <button onclick="check()">Проверить</button>
@@ -127,37 +130,43 @@ button{
 
 <script>
 
-function round(n){
-    return Number(n.toFixed(2));
-}
-
 function parseVal(id){
-    let val = document.getElementById(id).value.trim().replace(",", ".");
-    return parseFloat(val);
+    let val = document.getElementById(id).value
+        .trim()
+        .replace(",", ".");
+
+    if(val === "" || !/^\d+(\.\d+)?$/.test(val)){
+        return NaN;
+    }
+
+    return Number(val);
 }
 
 function check(){
 
-let a = round(11.6 * 12.35); // 143.26
-let b = round(7.1 * 12.35);  // 87.69
-let c = round(13.2 * 12.35); // 163.02
+    let a = 143.26;
+    let b = 87.69;
+    let c = 163.02;
+    let sum = 394;
 
-let sum = Math.round(a + b + c); // 394
+    let u1 = parseVal("t1");
+    let u2 = parseVal("t2");
+    let u3 = parseVal("t3");
+    let uSum = parseVal("total");
 
-let u1 = parseVal("t1");
-let u2 = parseVal("t2");
-let u3 = parseVal("t3");
-let uSum = parseVal("total");
+    let ok =
+        Math.abs(u1 - a) < 0.001 &&
+        Math.abs(u2 - b) < 0.001 &&
+        Math.abs(u3 - c) < 0.001 &&
+        Math.abs(uSum - sum) < 0.001;
 
-let ok = (u1 === a) && (u2 === b) && (u3 === c) && (uSum === sum);
-
-if(ok){
-    document.getElementById("result").innerText = "✔ Верно!";
-    document.getElementById("code").innerText = "🔐 Код: #Пу";
-}else{
-    document.getElementById("result").innerText = "❌ Неверно, попробуй ещё раз";
-    document.getElementById("code").innerText = "";
-}
+    if(ok){
+        document.getElementById("result").innerText = "✔ Верно!";
+        document.getElementById("code").innerText = "🔐 Код: #Пу";
+    }else{
+        document.getElementById("result").innerText = "❌ Неверно, попробуй ещё раз";
+        document.getElementById("code").innerText = "";
+    }
 
 }
 
